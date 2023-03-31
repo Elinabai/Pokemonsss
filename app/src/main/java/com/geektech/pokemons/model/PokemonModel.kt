@@ -16,6 +16,6 @@ data class PokemonModel(
         @SerializedName("weight")
         val weight: Int,
 
-        @SerializedName("location_area_encounters")
-        val location_area_encounters: String
+//        @SerializedName("location_area_encounters")
+//        val location_area_encounters: String
 )

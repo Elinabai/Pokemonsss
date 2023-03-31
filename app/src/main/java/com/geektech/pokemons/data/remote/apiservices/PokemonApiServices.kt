@@ -7,7 +7,6 @@ import retrofit2.http.GET
 
 interface PokemonApiServices {
 
-    @GET("api/v2/pokemon")
-    fun fetchPokemonApiServices()
-            : Call<PokemonResponse<PokemonModel>>
+    @GET("pokemon")
+    fun fetchPokemonApiServices() : Call<PokemonResponse>
 }

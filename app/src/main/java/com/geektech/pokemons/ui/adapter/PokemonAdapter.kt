@@ -1,5 +1,6 @@
 package com.geektech.pokemons.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,11 +12,12 @@ import com.geektech.pokemons.model.PokemonModel
 class PokemonAdapter : ListAdapter<PokemonModel, PokemonAdapter.ViewHolder>(
     PokemonDiffCallBack) {
 
-    class ViewHolder(private val binding: ItemPokemonBinding) :
+    inner class ViewHolder(private val binding: ItemPokemonBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: PokemonModel?) {
-            binding.tvPokemon.text = item?.name
+        fun onBind(item: PokemonModel) {
+            binding.tvPokemon.text = item.name
+            Log.e("name", item.name)
         }
     }
 
@@ -46,6 +48,6 @@ object PokemonDiffCallBack : DiffUtil.ItemCallback<PokemonModel>() {
         oldItem: PokemonModel,
         newItem: PokemonModel,
     ): Boolean {
-        return oldItem == newItem
+        return oldItem.name == newItem.name
     }
 }

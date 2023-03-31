@@ -1,33 +1,38 @@
 package com.geektech.pokemons.data.repository
 
-import androidx.lifecycle.MutableLiveData
 import com.geektech.pokemons.data.remote.apiservices.PokemonApiServices
 import com.geektech.pokemons.model.PokemonModel
 import com.geektech.pokemons.model.PokemonResponse
 import retrofit2.Call
 import retrofit2.Response
+import javax.inject.Inject
 
-class PokemonRepository(private val pokemonApiServices: PokemonApiServices) {
+class PokemonRepository (
+    private val pokemonApiServices: PokemonApiServices,
+) {
 
     fun fetchPokemon(
-    ): MutableLiveData<PokemonResponse<PokemonModel>> {
-        val data: MutableLiveData<PokemonResponse<PokemonModel>> = MutableLiveData()
+        onSuccess: (pokemonList: List<PokemonModel>?) -> Unit,
+        onFailure: (message: String) -> Unit,
+    ) {
         pokemonApiServices.fetchPokemonApiServices()
-            .enqueue(object : retrofit2.Callback<PokemonResponse<PokemonModel>> {
+            .enqueue(object : retrofit2.Callback<PokemonResponse> {
                 override fun onResponse(
-                    call: Call<PokemonResponse<PokemonModel>>,
-                    response: Response<PokemonResponse<PokemonModel>>,
+                    call: Call<PokemonResponse>,
+                    response: Response<PokemonResponse>,
                 ) {
-                    data.value = response.body()
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            onSuccess(it.results)
+                        }
+                    }
                 }
 
-                override fun onFailure(
-                    call: Call<PokemonResponse<PokemonModel>>,
-                    t: Throwable,
-                ) {
-                    data.value = null
+                override fun onFailure(call: Call<PokemonResponse>, t: Throwable) {
+                    t.localizedMessage?.let {
+                        onFailure(it)
+                    }
                 }
             })
-        return data
     }
 }

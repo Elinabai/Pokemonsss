@@ -14,7 +14,7 @@ class RetrofitClient {
         .writeTimeout(30, TimeUnit.SECONDS).build()
 
     val retrofitClient = Retrofit.Builder()
-        .baseUrl("https://pokeapi.co/")
+        .baseUrl("https://pokeapi.co/api/v2/")
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()

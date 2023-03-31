@@ -2,11 +2,16 @@ package com.geektech.pokemons.model
 
 import com.google.gson.annotations.SerializedName
 
-data class PokemonResponse<T>(
+data class PokemonResponse(
+    @SerializedName("count")
+    val count: Int,
 
-    @SerializedName("info")
-    val info: Info,
+    @SerializedName("next")
+    val next: String,
+
+    @SerializedName("previous")
+    val previous: String,
 
     @SerializedName("results")
-    val results: ArrayList<T>
+    val results: List<PokemonModel>?,
 )
